@@ -4,6 +4,7 @@
 
 This project demonstrates advanced data engineering skills by building a robust ETL pipeline using **PySpark**, orchestrated with **Apache Airflow** on **Kubernetes**. The pipeline ingests, transforms, and aggregates large-scale data from S3, and loads analytical results into Greenplum via external tables.
 - This project is a part of a **Data Engineer** course by **Karpov.Courses**. You can check it out [here](https://karpov.courses/dataengineer).
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/0013b409-0338-4a93-b1bd-95ab50094a8d" />
 
 ---
 
@@ -18,6 +19,8 @@ This project demonstrates advanced data engineering skills by building a robust 
 - **Modular & Reusable Code**: Each entity (orders, suppliers, customers, etc.) has its own PySpark job for maintainability and clarity.
 - **Cloud technologies**: I've used [VK.Cloud](https://cloud.vk.com/) to run the K8S Cluster, Spark, Airflow and everything else.
     - I recommend going through [this](https://github.com/stockblog/webinar_mlflow) and [this](https://github.com/stockblog/jupyterhub_k8s_mcs_slurm_intel) examples as a starting point for launching your own solution on VK.Cloud. It doesn't cover the entire process - but is a great starting point. The examples there should be replicable to other cloud solutions without too much hassle, as I've used the managed K8S cluster solution.
+ 
+Here's the general architecture:
 <img width="1081" height="781" alt="image" src="https://github.com/user-attachments/assets/cb913cd0-922e-48be-9ad9-35759cdaca4c" />
 
 ---
@@ -49,14 +52,17 @@ de-project/
 ---
 
 ## How It Works
-In general, the project assumes the classic DAMA DMBOK architecture - Extracting data from a separate Data Lake, Transforming it and Loading the resulting processed data into the analytical DWH. 
+In general, the project assumes the classic DAMA DMBOK architecture - Extracting data from a separate Data Lake, Transforming it and Loading the resulting processed data into the analytical DWH: 
 <img width="1972" height="1204" alt="image" src="https://github.com/user-attachments/assets/b2cd3546-b08f-42dc-be5e-6536f686523c" />
 
 1. **PySpark Jobs**: Each job reads raw data from S3, performs joins and aggregations, and writes results back to S3 in Parquet format.
 2. **Airflow DAG**: Dynamically loops through all entities, submitting Spark jobs to Kubernetes, monitoring their completion, and then running SQL DDL to create/update Greenplum external tables.
 4. **Kubernetes**: Spark jobs are run as Kubernetes resources for scalability and fault tolerance.
 5. **Greenplum Integration**: Results are exposed as external tables for analytics and BI. I'm not covering that part here :)
-    <img width="857" height="371" alt="image" src="https://github.com/user-attachments/assets/16d7afb4-a6df-4d60-932b-cfafd7baca48" />
+
+Here's how the DAG looks from the **Airflow UI** (assuming all tasks have completed successfully):
+<img width="857" height="371" alt="image" src="https://github.com/user-attachments/assets/16d7afb4-a6df-4d60-932b-cfafd7baca48" />
+
 ---
 
 ## Example: Orders ETL (PySpark)
@@ -65,6 +71,7 @@ In general, the project assumes the classic DAMA DMBOK architecture - Extracting
 - Joins and aggregates by month, nation, and order priority.
 - Calculates order counts, price stats, and status breakdowns.
 - Writes the result as Parquet to S3.
+
 
 
 
