@@ -16,8 +16,8 @@ This project demonstrates advanced data engineering skills by building a robust 
 - **Greenplum**: Analytical database integration via external tables for downstream analytics.
 - **Environment Variables & Security**: All sensitive credentials are loaded from environment variables using `.env` files (never committed to source control).
 - **Modular & Reusable Code**: Each entity (orders, suppliers, customers, etc.) has its own PySpark job for maintainability and clarity.
-- **Cloud technologies**: I've used [VK.Cloud](https://cloud.vk.com/) to run the K8S Cluster, Spark, Airflow and everything else. Doing it is a separate topic entirely:
-    - I recommend going through [this](https://github.com/stockblog/webinar_mlflow) and [this](https://github.com/stockblog/jupyterhub_k8s_mcs_slurm_intel) examples as a starting point for launching your own solution on VK.Cloud. It doesn't cover the entire process - but is a great starting point.
+- **Cloud technologies**: I've used [VK.Cloud](https://cloud.vk.com/) to run the K8S Cluster, Spark, Airflow and everything else.
+    - I recommend going through [this](https://github.com/stockblog/webinar_mlflow) and [this](https://github.com/stockblog/jupyterhub_k8s_mcs_slurm_intel) examples as a starting point for launching your own solution on VK.Cloud. It doesn't cover the entire process - but is a great starting point. The examples there should be replicable to other cloud solutions without too much hassle, as I've used the managed K8S cluster solution.
 <img width="1081" height="781" alt="image" src="https://github.com/user-attachments/assets/cb913cd0-922e-48be-9ad9-35759cdaca4c" />
 
 ---
@@ -64,5 +64,6 @@ In general, the project assumes the classic DAMA DMBOK architecture - Extracting
 - Joins and aggregates by month, nation, and order priority.
 - Calculates order counts, price stats, and status breakdowns.
 - Writes the result as Parquet to S3.
+
 
 
