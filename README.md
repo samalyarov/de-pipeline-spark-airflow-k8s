@@ -12,7 +12,7 @@ This project demonstrates advanced data engineering skills by building a robust 
 
 - **PySpark**: Distributed data processing and transformation using Spark DataFrames.
 - **Apache Airflow**: Workflow orchestration with dynamic DAGs, task dependencies, and retries.
-- **Kubernetes**: Spark jobs are submitted and monitored as Kubernetes resources for scalability and reliability.
+- **Kubernetes**: Spark jobs are submitted and monitored as Kubernetes resources for scalability and reliability (using `SparkKubernetesOperator` and `SparkKubernetesSensor`)
 - **AWS S3**: Data lake storage for raw and processed data using the `s3a` protocol.
 - **Greenplum**: Analytical database integration via external tables for downstream analytics.
 - **Environment Variables & Security**: All sensitive credentials are loaded from environment variables using `.env` files (never committed to source control).
@@ -72,6 +72,7 @@ Here's how the DAG looks from the **Airflow UI** (assuming all tasks have comple
 - Joins and aggregates by month, nation, and order priority.
 - Calculates order counts, price stats, and status breakdowns.
 - Writes the result as Parquet to S3.
+
 
 
 
