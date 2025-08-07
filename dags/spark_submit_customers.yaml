@@ -1,0 +1,72 @@
+apiVersion: sparkoperator.k8s.io/v1beta2
+kind: SparkApplication
+metadata:
+  name: spark-job-s-malyarov-customers
+spec:
+  type: Python
+  pythonVersion: "3"
+  mode: cluster
+  image: itayb/spark:3.1.1-hadoop-3.2.0-aws
+  imagePullPolicy: Always
+  mainApplicationFile: "local:///de-project/dags/spark-job-customers.py"
+  sparkVersion: "3.1.1"
+  timeToLiveSeconds: 300
+  restartPolicy:
+    type: Never
+  volumes:
+    - name: git-repo
+      emptyDir:
+        sizeLimit: 500Mi
+    - name: ssh-key
+      secret:
+        secretName: ssh-key
+        defaultMode: 256
+  driver:
+    tolerations:
+      - key: k8s.project.loc/custom-11-12
+        operator: Equal
+        effect: NoSchedule
+        value: 'true'
+      - key: k8s.project.loc/custom-spark
+        operator: Equal
+        effect: NoSchedule
+        value: 'true'
+    volumeMounts:
+      - name: "git-repo"
+        mountPath: /de-project
+      - name: ssh-key
+        mountPath: /tmp/ssh
+    initContainers:
+      - name: git-clone
+        image: alpine/git:2.40.1
+        env:
+          - name: GIT_SSH_COMMAND
+            value: "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+        command: ['sh', '-c', 'git clone --depth=1 --single-branch git@git.lab.project.loc:de/de-project.git /de-project']
+        volumeMounts:
+          - name: git-repo
+            mountPath: /de-project
+          - name: ssh-key
+            mountPath: /root/.ssh
+    cores: 1
+    coreLimit: "1200m"
+    memory: "1024m"
+    labels:
+      version: 3.1.1
+    serviceAccount: spark-driver
+  executor:
+    tolerations:
+      - key: k8s.project.loc/custom-11-12
+        operator: Equal
+        effect: NoSchedule
+        value: 'true'
+      - key: k8s.project.loc/custom-spark
+        operator: Equal
+        effect: NoSchedule
+        value: 'true'
+    cores: 1
+    coreLimit: "2500m"
+    instances: 1
+    memory: "2048m"
+    labels:
+      version: 3.1.1
