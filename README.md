@@ -39,6 +39,7 @@ de-project/
 │   ├── spark-job-orders.py  
 │   ├── spark-job-suppliers.py  
 │   ├── ... (other spark jobs)  
+│   ├── ... (associated .yaml files) 
 │   └── de-project-s-malyarov-dag.py  
 ├── .env.example  
 ├── .gitignore  
@@ -64,6 +65,7 @@ In general, the project assumes the classic DAMA DMBOK architecture - Extracting
 - Joins and aggregates by month, nation, and order priority.
 - Calculates order counts, price stats, and status breakdowns.
 - Writes the result as Parquet to S3.
+
 
 
 
